@@ -100,6 +100,8 @@ public class HotelView extends Layout {
         this.roomManager = new RoomManager();
         this.reserManager = new ReserManager();
         this.property = new Property();
+        this.fld_chec_in = new JTextField(20);
+        this.fld_check_out = new JTextField(20);
         btn_employee_logout.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

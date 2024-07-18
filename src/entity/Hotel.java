@@ -125,4 +125,9 @@ public class Hotel {
                 ", hotel_star='" + hotel_star + '\'' +
                 '}';
     }
+
+    public int getId() {
+        return 0;
+    }
+
 }

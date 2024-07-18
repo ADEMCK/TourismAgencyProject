@@ -62,7 +62,7 @@ public class RoomAdd extends Layout {
         this.room = new Room();
 
         add(container);
-        this.guiInitialize(760, 550);
+        this.guiInitialize(760, 750);
         Integer[] cmbAdult = {0, 1, 2, 3};
         // Create DefaultComboBoxModel and add integers to the model
         DefaultComboBoxModel<Integer> cmbAdultModel = new DefaultComboBoxModel<>(cmbAdult);

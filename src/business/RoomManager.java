@@ -72,4 +72,16 @@ public class RoomManager {
     public ArrayList<Room> searchForRooms(String startDate, String endDate, String searchCity, String hotelName, int adultNum, int childNum) {
         return this.roomDao.searchForRooms(startDate, endDate, searchCity, hotelName, adultNum, childNum);
     }
+
+    public int fetchRoomTypePrice(String string) {
+        return 0;
+    }
+
+    public int fetchPansiyonTypePrice(int hotelTypeId) {
+        return 0;
+    }
+
+    public int fetchSeasonPrice(int seasonId) {
+        return seasonId;
+    }
 }

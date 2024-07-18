@@ -89,6 +89,10 @@ public class HotelAddView extends Layout {
         hotelPropertyListComponent();
         hotelTypeListComponent();
 
+        // Radio button group for seasons
+        ButtonGroup seasonGroup = new ButtonGroup();
+        seasonGroup.add(rd_btn_sum);
+        seasonGroup.add(rd_btn_win);
 
         // Adding ActionListener to the save button
         btn_hotel_save.addActionListener(e -> {
@@ -97,7 +101,6 @@ public class HotelAddView extends Layout {
             boolean isSeason = false;
 
             // Setting the propertyNames list by creating a new Property object
-
             JTextField[] checkFieldList = {
                     this.fld_hotel_name,
                     this.fld_hotel_city,
@@ -111,7 +114,7 @@ public class HotelAddView extends Layout {
             if (Helper.isFieldListEmpty(checkFieldList) ||
                     Helper.isList_J_Empty(lst_right_pro) ||
                     Helper.isList_J_Empty(lst_right_type) ||
-                    (!rd_btn_sum.isSelected() || !rd_btn_win.isSelected())) {
+                    (!rd_btn_sum.isSelected() && !rd_btn_win.isSelected())) {
                 Helper.showMsg("Required parts are missing"); //Evaluation Form 24-25 Appropriate pop up messages are given to the user for successful transactions and appropriate error messages are given to the user for incorrect transactions.
             } else if (!Helper.isValidDate(fld_season_start.getText(), ("dd-MM-yyyy")) || !Helper.isValidDate(fld_season_end.getText(), ("dd-MM-yyyy"))) {
                 Helper.showMsg("Invalid date entered"); //Evaluation Form 24-25 Appropriate pop up messages are given to the user for successful transactions and appropriate error messages are given to the user for incorrect transactions.
@@ -124,20 +127,25 @@ public class HotelAddView extends Layout {
                 this.hotel.setHotel_phone(fld_hotel_phone.getText());
                 this.hotel.setHotel_star((Integer) cmb_hotel_star.getSelectedItem());
 
-//Evaluation Form 11 Period management was carried out when adding hotels to the system
+                //Evaluation Form 11 Period management was carried out when adding hotels to the system
                 List<Season> seasons = new ArrayList<>();
-                Season summerSeason = new Season();
-                summerSeason.setSeasonName("Summer");
-                summerSeason.setSeason_start(LocalDate.parse(fld_season_start.getText(), DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-                summerSeason.setSeason_end(LocalDate.parse(fld_season_end.getText(), DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-                seasons.add(summerSeason);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-//Create Winter and add it to the list
-                Season winterSeason = new Season();
-                winterSeason.setSeasonName("Winter");
-                winterSeason.setSeason_start(LocalDate.parse(fld_season_start.getText(), DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-                winterSeason.setSeason_end(LocalDate.parse(fld_season_end.getText(), DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-                seasons.add(winterSeason);
+                if (rd_btn_sum.isSelected()) {
+                    Season summerSeason = new Season();
+                    summerSeason.setSeasonName("Summer");
+                    summerSeason.setSeason_start(LocalDate.parse(fld_season_start.getText(), formatter));
+                    summerSeason.setSeason_end(LocalDate.parse(fld_season_end.getText(), formatter));
+                    seasons.add(summerSeason);
+                }
+
+                if (rd_btn_win.isSelected()) {
+                    Season winterSeason = new Season();
+                    winterSeason.setSeasonName("Winter");
+                    winterSeason.setSeason_start(LocalDate.parse(fld_season_start.getText(), formatter));
+                    winterSeason.setSeason_end(LocalDate.parse(fld_season_end.getText(), formatter));
+                    seasons.add(winterSeason);
+                }
 
                 int hotelId = this.hotelManager.saveAndGetHotelId(this.hotel);
 
@@ -146,35 +154,32 @@ public class HotelAddView extends Layout {
                     this.property.setPropertyNames(propertyNames);
                     isProper = propertyManager.save(this.property, hotelId);
 
-
                     List<String> listRightType = Helper.getListFromJList(lst_right_type);
                     isType = this.typeManager.save(hotelId, listRightType);
-
 
                     isSeason = this.seasonManager.save(seasons, hotelId);
 
                     if (isProper) {
-                        Helper.showMsg("Feature registration successful"); //Evaluation Form 24-25 Appropriate pop up messages are given to the user for successful transactions and appropriate error messages are given to the user for incorrect transactions.
+                        Helper.showMsg("Feature registration successful");
                     } else {
-                        Helper.showMsg("Private registration failed"); //Evaluation Form 24-25 Appropriate pop up messages are given to the user for successful transactions and appropriate error messages are given to the user for incorrect transactions.
+                        Helper.showMsg("Private registration failed");
                     }
                     if (isType) {
-                        Helper.showMsg("Type registration successful"); //Evaluation Form 24-25 Appropriate pop up messages are given to the user for successful transactions and appropriate error messages are given to the user for incorrect transactions.
+                        Helper.showMsg("Type registration successful");
                     } else {
-                        Helper.showMsg("Type registration failed"); //Evaluation Form 24-25 Appropriate pop up messages are given to the user for successful transactions and appropriate error messages are given to the user for incorrect transactions.
+                        Helper.showMsg("Type registration failed");
                     }
                     if (isSeason) {
-                        Helper.showMsg("Season registration successful"); //Evaluation Form 24-25 Appropriate pop up messages are given to the user for successful transactions and appropriate error messages are given to the user for incorrect transactions.
+                        Helper.showMsg("Season registration successful");
                     } else {
-                        Helper.showMsg("Season registration failed"); //Evaluation Form 24-25 Appropriate pop up messages are given to the user for successful transactions and appropriate error messages are given to the user for incorrect transactions.
+                        Helper.showMsg("Season registration failed");
                     }
-                    Helper.showMsg("Hotel information registration successful"); //Evaluation Form 24-25 Appropriate pop up messages are given to the user for successful transactions and appropriate error messages are given to the user for incorrect transactions.
+                    Helper.showMsg("Hotel information registration successful");
                 } else {
-                    Helper.showMsg("Hotel information registration failed"); //Evaluation Form 24-25 Appropriate pop up messages are given to the user for successful transactions and appropriate error messages are given to the user for incorrect transactions.
+                    Helper.showMsg("Hotel information registration failed");
                 }
             }
         });
-
     }
 
     public void hotelPropertyListComponent() {
@@ -209,64 +214,53 @@ public class HotelAddView extends Layout {
             }
         });
 
-
         btn_single_left.addActionListener(e -> {
             if (lst_right_pro.getSelectedValue() != null) {
-
                 rightListPropertyModel.removeElement(lst_right_pro.getSelectedValue());
-
             } else {
-                Helper.showMsg("Select Feature"); //Evaluation Form 24-25 Appropriate pop up messages are given to the user for successful transactions and appropriate error messages are given to the user for incorrect transactions.
+                Helper.showMsg("Select Feature");
             }
         });
+
         btn_multi_right.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (leftListPropertyModel.getSize() == rightListPropertyModel.getSize()) {
-                    Helper.showMsg("The entire list is available"); //Evaluation Form 24-25 Appropriate pop up messages are given to the user for successful transactions and appropriate error messages are given to the user for incorrect transactions.
+                    Helper.showMsg("The entire list is available");
                 } else {
                     // Get all items in the left list
                     List<String> allItems = new ArrayList<>();
                     for (int i = 0; i < leftListPropertyModel.getSize(); i++) {
                         allItems.add(leftListPropertyModel.getElementAt(i));
                     }
-                    // Get existing items in the right list into a List
-                    List<String> existingItems = new ArrayList<>();
-                    for (int i = 0; i < rightListPropertyModel.getSize(); i++) {
-                        existingItems.add(rightListPropertyModel.getElementAt(i));
 
-                    }
-                    // Add all items from the left list to the right list (but not those from the right list)
+                    // Add only the missing items to the right list
                     for (String item : allItems) {
-                        if (!existingItems.contains(item)) {
+                        if (!rightListPropertyModel.contains(item)) {
                             rightListPropertyModel.addElement(item);
-                            lst_right_pro.setModel(rightListPropertyModel);
-
                         }
                     }
+                    lst_right_pro.setModel(rightListPropertyModel);
                 }
             }
         });
+
         btn_multi_left.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                rightListPropertyModel.removeAllElements();
+                rightListPropertyModel.clear();
             }
         });
     }
 
     public void hotelTypeListComponent() {
-//Evaluation Form 12 When hotels were added to the system, hostel type management was made.
         leftListTypeModel = new DefaultListModel<>();
-
         String[] typeArray = {
-                "Ultra All Inclusive",
-                "All inclusive",
-                "Room breakfast",
-                "Full pension",
-                "Half board",
-                "Just Bed",
-                "Excluding Alcohol"
+                "Family",
+                "Business",
+                "Suit",
+                "Economical",
+                "Penthouse"
         };
 
         for (int i = 0; i < typeArray.length; i++) {
@@ -284,26 +278,26 @@ public class HotelAddView extends Layout {
                     rightListTypeModel.addElement(getLeftListValue);
                     lst_right_type.setModel(rightListTypeModel);
                 } else if (getLeftListValue == null) {
-                    Helper.showMsg("Select Feature"); //Evaluation Form 24-25 Appropriate pop up messages are given to the user for successful transactions and appropriate error messages are given to the user for incorrect transactions.
+                    Helper.showMsg("Select Type");
                 } else {
-                    Helper.showMsg("Available in the list"); //Evaluation Form 24-25 Appropriate pop up messages are given to the user for successful transactions and appropriate error messages are given to the user for incorrect transactions.
+                    Helper.showMsg("Available in the list");
                 }
             }
         });
+
         btn_single_left_type.addActionListener(e -> {
-            // String getLeftListValue = lst_right.getSelectedValue();
-            //int value=lst_right.getSelectedIndex();
             if (lst_right_type.getSelectedValue() != null) {
                 rightListTypeModel.removeElement(lst_right_type.getSelectedValue());
             } else {
-                Helper.showMsg("Select Feature"); //Evaluation Form 24-25 Appropriate pop up messages are given to the user for successful transactions and appropriate error messages are given to the user for incorrect transactions.
+                Helper.showMsg("Select Type");
             }
         });
+
         btn_multi_right_type.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (leftListTypeModel.getSize() == rightListTypeModel.getSize()) {
-                    Helper.showMsg("The entire list is available"); //Evaluation Form 24-25 Appropriate pop up messages are given to the user for successful transactions and appropriate error messages are given to the user for incorrect transactions.
+                    Helper.showMsg("The entire list is available");
                 } else {
                     // Get all items in the left list
                     List<String> allItems = new ArrayList<>();
@@ -311,26 +305,21 @@ public class HotelAddView extends Layout {
                         allItems.add(leftListTypeModel.getElementAt(i));
                     }
 
-                    // Get existing items in the right list into a List
-                    List<String> existingItems = new ArrayList<>();
-                    for (int i = 0; i < rightListTypeModel.getSize(); i++) {
-                        existingItems.add(rightListTypeModel.getElementAt(i));
-                    }
-
-                    // Add all items from the left list to the right list (but not those from the right list)
+                    // Add only the missing items to the right list
                     for (String item : allItems) {
-                        if (!existingItems.contains(item)) {
+                        if (!rightListTypeModel.contains(item)) {
                             rightListTypeModel.addElement(item);
-                            lst_right_type.setModel(rightListTypeModel);
                         }
                     }
+                    lst_right_type.setModel(rightListTypeModel);
                 }
             }
         });
+
         btn_multi_left_type.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                rightListTypeModel.removeAllElements();
+                rightListTypeModel.clear();
             }
         });
     }

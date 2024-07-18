@@ -70,4 +70,8 @@ public class HotelManager {
         }
         return hotelArrayList;
     }
+
+    public ArrayList<Hotel> getList() {
+        return null;
+    }
 }
