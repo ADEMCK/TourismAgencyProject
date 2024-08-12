@@ -1,35 +1,50 @@
-Patika Turizm Acentesi Turizm Acente Sistemi
-Bu proje, Patika Turizm Acentesi'nin günlük operasyonlarını dijitalleştirmek için geliştirilmiş bir yazılım çözümüdür. Yazılım, otel yönetimi, oda yönetimi, dönem yönetimi, fiyat yönetimi, oda arama ve rezervasyon işlemleri gibi çeşitli özellikleri kapsar.
+# Patika Turizm Acentesi Turizm Acente Sistemi
 
-Kullanılan Teknolojiler
-Java
-Java Swing (GUI)
-PostgreSQL
-Kurulum
-Bu projeyi klonlayın.
-PostgreSQL veritabanında turizmacentesistemi adında bir veritabanı oluşturun.
-turizmacentesistemi.sql dosyasını kullanarak veritabanı tablolarını oluşturun. Veritabanı bağlantısını yapılandırmak için DatabaseConnection.java dosyasını düzenleyin.
-Proje Yapısı
-business: İş mantığını gerçekleştiren servis sınıflarını içerir.
-core: Veritabanı oluşturma dosyasının bulunduğu dizindir.
-dao: Veritabanı işlemlerini gerçekleştiren DAO (Data Access Object) sınıflarını içerir.
-entity: Veritabanı tablolarını temsil eden model sınıflarını içerir.
-views: Kullanıcı arayüzünü oluşturan Swing GUI sınıflarını içerir.
-Diğer Özellikler
-Otel Ekleme ve Çıkarma
-Turizm acente sistemi, çalışanların sisteme yeni oteller eklemesine veya mevcut otelleri kaldırmasına olanak tanır. Bu özellik sayesinde acente, işbirliği yaptığı otelleri güncel tutabilir ve müşterilerine geniş bir otel yelpazesi sunabilir. Otel ekleme ve çıkarma işlemleri, kullanımı kolay bir arayüz ile gerçekleştirilir, böylece çalışanlar hızlı ve hatasız bir şekilde operasyonlarını yürütebilirler.
+This project is a software solution developed to digitalize the daily operations of Patika Turizm Acentesi. The software encompasses various features such as hotel management, room management, period management, pricing management, room search, and reservation operations.
 
-Rezervasyon Yapma
-Sistem, çalışanların müşteri taleplerine göre otel odası rezervasyonu yapabilmesini sağlar. Kullanıcı dostu arayüzü sayesinde çalışanlar, müşterilerin istediği tarih aralığında ve belirlenen kriterlere uygun odaları kolayca arayabilir ve rezerve edebilirler. Rezervasyon işlemi, müşterinin bilgileri ve rezervasyon detayları girilerek tamamlanır ve veritabanına kaydedilir.
+## Technologies Used
 
-Oda Yönetimi
-Çalışanlar, mevcut otellerdeki odaları yönetebilir, oda bilgilerini güncelleyebilir ve oda durumlarını takip edebilirler.
+- **Java**
+- **Java Swing (GUI)**
+- **PostgreSQL**
 
-Dönem Yönetimi
-Fiyatlandırma ve oda müsaitliği gibi bilgileri dönemsel olarak ayarlayabilirler.
+## Installation
 
-Fiyat Yönetimi
-Otel odalarının fiyatlarını belirleyebilir ve gerektiğinde güncelleyebilirler.
+1. Clone this project to your local machine.
+2. Create a database named `turizmacentesistemi` in PostgreSQL.
+3. Use the `turizmacentesistemi.sql` file to create the database tables.
+4. Configure the database connection by editing the `DatabaseConnection.java` file.
 
-Oda Arama
-Müşterilerin taleplerine uygun oda aramaları gerçekleştirebilirler.
+## Project Structure
+
+- **business**: Contains service classes that implement the business logic.
+- **core**: Contains the script for creating the database.
+- **dao**: Contains DAO (Data Access Object) classes that handle database operations.
+- **entity**: Contains model classes that represent database tables.
+- **views**: Contains Swing GUI classes that build the user interface.
+
+## Additional Features
+
+### Hotel Addition and Removal
+
+The tourism agency system allows employees to add new hotels or remove existing ones from the system. This feature ensures that the agency can keep its hotel portfolio up to date, offering a wide range of options to its customers. The addition and removal of hotels are carried out through an easy-to-use interface, allowing employees to perform operations quickly and accurately.
+
+### Reservation Booking
+
+The system enables employees to book hotel rooms based on customer requests. With its user-friendly interface, employees can easily search for and reserve rooms that meet the customers' date range and criteria. The reservation process is completed by entering customer details and reservation specifics, which are then saved to the database.
+
+### Room Management
+
+Employees can manage rooms in existing hotels, update room information, and track room statuses.
+
+### Period Management
+
+Employees can adjust pricing and room availability on a periodic basis.
+
+### Pricing Management
+
+The system allows for the setting and updating of hotel room prices.
+
+### Room Search
+
+Employees can conduct room searches based on customer demands.
